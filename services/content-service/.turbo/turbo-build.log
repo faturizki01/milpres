@@ -1,4 +1,0 @@
-
-> @milpers/content-service@0.0.0 build /workspaces/milpres/services/content-service
-> tsc -p tsconfig.build.json
-
