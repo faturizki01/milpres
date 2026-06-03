@@ -18,8 +18,8 @@ const worker = new Worker('media-processing', async job => {
     const outPath = path.replace('originals/', `processed/${w}/`).replace(/\.[^.]+$/, '.webp')
     await minio.putObject('media', outPath, out)
   }
-  // update db
-  await prisma.media.update({ where: { id: mediaId }, data: { status: 'READY' } })
+  // update db with thumbnail key
+  await prisma.media.update({ where: { id: mediaId }, data: { thumbnailKey: path.replace('originals/', 'processed/320/').replace(/\.[^.]+$/, '.webp') } })
 }, { connection: redis })
 
 worker.on('completed', job => console.log('job completed', job.id))

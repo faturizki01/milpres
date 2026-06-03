@@ -1,7 +1,7 @@
 const PUBLIC_API_BASE = process.env.CONTENT_SERVICE_URL || 'http://localhost:4000'
 
 async function fetchJson<T>(path: string, init?: any) {
-  const res = await fetch(`${PUBLIC_API_BASE}${path}`, { cache: 'force-cache', ...init })
+  const res = await fetch(`${PUBLIC_API_BASE}${path}`, { ...init })
   if (!res.ok) {
     throw new Error(`Failed to fetch ${path}: ${res.status}`)
   }
@@ -48,15 +48,15 @@ export type ContentItem = {
 }
 
 export async function fetchTenantSiteConfig(tenantSlug: string) {
-  return fetchJson<SiteConfig>(`/public/${tenantSlug}/site-config`)
+  return fetchJson<SiteConfig>(`/public/${tenantSlug}/site-config`, { next: { revalidate: 600 } })
 }
 
 export async function fetchTenantContents(tenantSlug: string) {
-  return fetchJson<ContentItem[]>(`/public/${tenantSlug}/contents`)
+  return fetchJson<ContentItem[]>(`/public/${tenantSlug}/contents`, { next: { revalidate: 60 } })
 }
 
 export async function fetchTenantArticle(tenantSlug: string, slug: string) {
-  return fetchJson<ContentItem>(`/public/${tenantSlug}/contents/${slug}`)
+  return fetchJson<ContentItem>(`/public/${tenantSlug}/contents/${slug}`, { next: { revalidate: 300 } })
 }
 
 export async function searchTenantArticles(tenantSlug: string, q: string) {

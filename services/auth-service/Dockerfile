@@ -36,6 +36,6 @@ COPY --from=builder /app/services/auth-service/package.json ./services/auth-serv
 RUN pnpm install --frozen-lockfile --prod
 
 USER app
-EXPOSE 3001
+EXPOSE 4001
 WORKDIR /app/services/auth-service
 CMD ["node", "dist/main.js"]

@@ -18,6 +18,7 @@ const VALID_TRANSITIONS: Record<string,string[]> = {
 @Injectable()
 export class ContentsService {
   async create(tenantId:string, data:any){
+    if(!data.authorId) throw new BadRequestException('authorId required')
     const title = data.title
     const bodyRaw = data.body || ''
     const sanitized = DOMPurify.sanitize(bodyRaw)
@@ -31,7 +32,7 @@ export class ContentsService {
     const read_time_minutes = Math.max(1, Math.ceil(words.length / 200))
     const content = await prisma.content.create({ data: {
       tenantId,
-      authorId: data.authorId ?? '00000000-0000-0000-0000-000000000000',
+      authorId: data.authorId,
       contentType: data.contentType ? data.contentType as ContentType : ContentType.ARTICLE,
       title,
       body: sanitized,

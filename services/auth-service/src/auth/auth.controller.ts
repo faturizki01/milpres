@@ -27,8 +27,13 @@ export class AuthController {
       }
       await this._authService.resetFailedIP(String(ip))
       const tokens = await this._authService.login(user)
-      // set refresh token as httpOnly cookie
-      res.cookie('refresh_token', tokens.refresh_token, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 })
+      // set refresh token as httpOnly secure cookie
+      res.cookie('refresh_token', tokens.refresh_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      })
       return { access_token: tokens.access_token }
     } catch (err) {
       console.error('login error', err)

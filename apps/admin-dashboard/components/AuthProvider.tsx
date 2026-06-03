@@ -38,14 +38,16 @@ export function AuthProvider({ children }: { children: ReactNode }){
       const data = await res.json()
       if(data.access_token){
         setToken(data.access_token)
+        let redirectRole: string | null = null
         try {
           const payload:any = jwt_decode(data.access_token)
-          setRole(payload.role || null)
+          redirectRole = payload.role || null
+          setRole(redirectRole)
         } catch (e) {
           setRole(null)
         }
-        // redirect based on role
-        if(role === 'SUPER_ADMIN') router.push('/super-admin')
+        // redirect based on decoded JWT role directly
+        if(redirectRole === 'SUPER_ADMIN') router.push('/super-admin')
         else router.push('/dashboard')
         return true
       }
@@ -53,7 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }){
     }catch(e){ console.error(e); return false }
   }
 
-  function logout(){ setToken(null); setRole(null); router.push('/(auth)/login') }
+  function logout(){ setToken(null); setRole(null); router.push('/login') }
 
   async function refresh(){
     try {

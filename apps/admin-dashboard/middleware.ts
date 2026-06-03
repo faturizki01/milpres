@@ -4,10 +4,10 @@ import type { NextRequest } from 'next/server'
 export function middleware(req: NextRequest){
   const { pathname } = req.nextUrl
   // allow auth routes
-  if(pathname.startsWith('/(auth)') || pathname.startsWith('/_next') || pathname.startsWith('/api')) return NextResponse.next()
+  if(pathname === '/login' || pathname === '/forgot-password' || pathname.startsWith('/_next') || pathname.startsWith('/api')) return NextResponse.next()
   const refreshCookie = req.cookies.get('refresh_token')
   if(!refreshCookie) {
-    const url = new URL('/(auth)/login', req.url)
+    const url = new URL('/login', req.url)
     return NextResponse.redirect(url)
   }
   return NextResponse.next()

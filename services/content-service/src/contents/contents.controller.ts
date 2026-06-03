@@ -1,15 +1,17 @@
-import { Controller, Post, Body, Req, Param, Put, Delete, Get, BadRequestException } from '@nestjs/common'
+import { Controller, Post, Body, Req, Param, Put, Delete, Get, BadRequestException, UseGuards } from '@nestjs/common'
 import { ContentsService } from './contents.service'
+import { JwtAuthGuard } from '../common/jwt-auth.guard'
 
 @Controller('contents')
 export class ContentsController {
   constructor(private svc: ContentsService){}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Req() req:any, @Body() body:any){
-    const tenantId = req.headers['x-tenant-id'] || req.body.tenantId
-    if(!tenantId) throw new BadRequestException('missing_tenant')
-    return this.svc.create(String(tenantId), body)
+    const user = req.user as any
+    if(!user || !user.id) throw new BadRequestException('invalid_user')
+    return this.svc.create(String(user.tenantId), { ...body, authorId: user.id })
   }
 
   @Get()

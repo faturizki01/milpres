@@ -19,18 +19,21 @@ export class AuthService {
     try {
       ok = await argon2.verify(user.passwordHash, pass)
     } catch (e) {
-      // fallback for dev seeds that might have plain text password
-      if (user.passwordHash === pass) ok = true
+      return null
     }
     if (!ok) return null
     return user
   }
 
   async login(user: any) {
+    const tenant = await prisma.tenant.findUnique({
+      where: { id: user.tenantId },
+      select: { slug: true },
+    })
     const payload = {
       sub: user.id,
       tenant_id: user.tenantId,
-      tenant_slug: '',
+      tenant_slug: tenant?.slug || '',
       role: user.role,
       email: user.email,
     }
@@ -47,10 +50,14 @@ export class AuthService {
     if (!userId) throw new UnauthorizedException()
     const user = await prisma.user.findUnique({ where: { id: userId } })
     if (!user) throw new UnauthorizedException()
+    const tenant = await prisma.tenant.findUnique({
+      where: { id: user.tenantId },
+      select: { slug: true },
+    })
     const payload = {
       sub: user.id,
       tenant_id: user.tenantId,
-      tenant_slug: '',
+      tenant_slug: tenant?.slug || '',
       role: user.role,
       email: user.email,
     }

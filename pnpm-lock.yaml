@@ -127,6 +127,9 @@ importers:
       ioredis:
         specifier: ^5.3.2
         version: 5.11.0
+      nodemailer:
+        specifier: ^6.9.0
+        version: 6.10.1
       passport:
         specifier: ^0.6.0
         version: 0.6.0
@@ -152,6 +155,9 @@ importers:
       '@types/express':
         specifier: ^4.17.17
         version: 4.17.25
+      '@types/nodemailer':
+        specifier: ^6.4.0
+        version: 6.4.23
       '@types/passport':
         specifier: ^1.0.9
         version: 1.0.17
@@ -188,18 +194,30 @@ importers:
       '@nestjs/core':
         specifier: ^10.0.0
         version: 10.4.22(@nestjs/common@10.4.22)(@nestjs/platform-express@10.4.22)(reflect-metadata@0.1.14)(rxjs@7.8.2)
+      '@nestjs/jwt':
+        specifier: ^10.0.0
+        version: 10.2.0(@nestjs/common@10.4.22)
+      '@nestjs/passport':
+        specifier: ^10.0.0
+        version: 10.0.3(@nestjs/common@10.4.22)(passport@0.6.0)
       '@nestjs/platform-express':
         specifier: ^10.0.0
         version: 10.4.22(@nestjs/common@10.4.22)(@nestjs/core@10.4.22)
       '@nestjs/schedule':
         specifier: ^3.0.0
         version: 3.0.4(@nestjs/common@10.4.22)(@nestjs/core@10.4.22)(reflect-metadata@0.1.14)
+      '@nestjs/throttler':
+        specifier: ^5.0.0
+        version: 5.2.0(@nestjs/common@10.4.22)(@nestjs/core@10.4.22)(reflect-metadata@0.1.14)
       '@prisma/client':
         specifier: ^5.22.0
         version: 5.22.0(prisma@5.22.0)
       bullmq:
         specifier: ^2.0.0
         version: 2.4.0
+      cookie-parser:
+        specifier: ^1.4.7
+        version: 1.4.7
       express-async-handler:
         specifier: ^1.2.0
         version: 1.2.0
@@ -218,9 +236,21 @@ importers:
       minio:
         specifier: ^7.0.18
         version: 7.1.4
+      passport:
+        specifier: ^0.6.0
+        version: 0.6.0
+      passport-jwt:
+        specifier: ^4.0.0
+        version: 4.0.1
       prisma:
         specifier: ^5.22.0
         version: 5.22.0
+      reflect-metadata:
+        specifier: ^0.1.13
+        version: 0.1.14
+      rxjs:
+        specifier: ^7.8.0
+        version: 7.8.2
       sharp:
         specifier: ^0.32.0
         version: 0.32.6
@@ -229,7 +259,7 @@ importers:
         version: 1.6.9
     devDependencies:
       '@types/cookie-parser':
-        specifier: ^1.4.4
+        specifier: ^1.4.10
         version: 1.4.10(@types/express@4.17.25)
       '@types/express':
         specifier: ^4.17.19
@@ -243,6 +273,12 @@ importers:
       '@types/node':
         specifier: ^20.14.0
         version: 20.19.41
+      '@types/passport':
+        specifier: ^1.0.9
+        version: 1.0.17
+      '@types/passport-jwt':
+        specifier: ^3.0.9
+        version: 3.0.13
       '@types/uuid':
         specifier: ^9.0.2
         version: 9.0.8
@@ -749,6 +785,18 @@ packages:
       uuid: 9.0.1
     dev: false
 
+  /@nestjs/throttler@5.2.0(@nestjs/common@10.4.22)(@nestjs/core@10.4.22)(reflect-metadata@0.1.14):
+    resolution: {integrity: sha512-G/G/MV3xf6sy1DwmnJsgeL+d2tQ/xGRNa9ZhZjm9Kyxp+3+ylGzwJtcnhWlN82PMEp3TiDQpTt+9waOIg/bpPg==}
+    peerDependencies:
+      '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
+      '@nestjs/core': ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
+      reflect-metadata: ^0.1.13 || ^0.2.0
+    dependencies:
+      '@nestjs/common': 10.4.22(reflect-metadata@0.1.14)(rxjs@7.8.2)
+      '@nestjs/core': 10.4.22(@nestjs/common@10.4.22)(@nestjs/platform-express@10.4.22)(reflect-metadata@0.1.14)(rxjs@7.8.2)
+      reflect-metadata: 0.1.14
+    dev: false
+
   /@next/env@15.0.7:
     resolution: {integrity: sha512-g/v9G2Xmv9T6w/DcRdcdVkLuAHnGt5fcJ3C33PmPrrdtUrwrjXcT4jXasdedSbw+koXa4YeEA3nPgy6q2wmk2A==}
     dev: false
@@ -1125,6 +1173,12 @@ packages:
     resolution: {integrity: sha512-ECymXOukMnOoVkC2bb1Vc/w/836DXncOg5m8Xj1RH7xSHZJWNYY6Zh7EH477vcnD5egKNNfy2RpNOmuChhFPgQ==}
     dependencies:
       undici-types: 6.21.0
+
+  /@types/nodemailer@6.4.23:
+    resolution: {integrity: sha512-aFV3/NsYFLSx9mbb5gtirBSXJnAlrusoKNuPbxsASWc7vrKLmIrTQRpdcxNcSFL3VW2A2XpeLEavwb2qMi6nlQ==}
+    dependencies:
+      '@types/node': 20.19.41
+    dev: true
 
   /@types/passport-jwt@3.0.13:
     resolution: {integrity: sha512-fjHaC6Bv8EpMMqzTnHP32SXlZGaNfBPC/Po5dmRGYi2Ky7ljXPbGnOy+SxZqa6iZvFgVhoJ1915Re3m93zmcfA==}
@@ -4578,6 +4632,11 @@ packages:
       detect-libc: 2.1.2
     dev: false
     optional: true
+
+  /nodemailer@6.10.1:
+    resolution: {integrity: sha512-Z+iLaBGVaSjbIzQ4pX6XV41HrooLsQ10ZWPUehGmuantvzWoDVBnmsdUcOIDM1t+yPor5pDhVlDESgOMEGxhHA==}
+    engines: {node: '>=6.0.0'}
+    dev: false
 
   /nopt@5.0.0:
     resolution: {integrity: sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ==}

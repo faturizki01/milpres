@@ -41,6 +41,6 @@ RUN pnpm install --frozen-lockfile --prod
 COPY --from=builder /app/services/content-service/dist ./services/content-service/dist
 
 USER app
-EXPOSE 3002
+EXPOSE 4002
 WORKDIR /app/services/content-service
 CMD ["node", "dist/main.js"]
